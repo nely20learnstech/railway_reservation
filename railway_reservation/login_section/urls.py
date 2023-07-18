@@ -13,11 +13,7 @@ urlpatterns = [
     path('city-json/', views.get_json_city_data, name="city-json"),
     path('itinerary-json/<str:city>/', views.get_json_itinerary_data, name="itinerary-json"),
     path('fee-json/<str:departure>/<str:arrival>/', views.get_json_fee_data, name="fee-json"),
-    # path('', wagon, name="wagon"),
-    # path('', common_departure_time, name="departure_time"),
-    # path('', select_seat_view, name="select-seat"),
     path('add-reservation', views.add_reservation, name="add-reservation"),
-    # View reservation individually
     path('individual_reservation/<str:reservation_id>', views.individual_reservation, name="individual_reservation"),
     path('edit-reservation', views.edit_reservation, name="edit-reservation"),
     path('delete-reservation/<int:reservation_id>', views.delete_reservation, name="delete-reservation"),
