@@ -1,0 +1,272 @@
+{% load static %}
+
+<!doctype html>
+<html class="bg-gray-50" >
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href= {% static "dist/output.css" %} rel="stylesheet"/>
+  <link href={% static "src/assets/css/style.css"%} rel="stylesheet"/>
+  <link rel="icon" type="image/png" href=  {% static "src/assets/img/logo.png" %} />
+  
+  <title>Train ticket</title>
+  
+</head>
+<body class="bg-gray-50" > 
+  <!-- /************PC HEADER******************/ -->
+
+  <header id="pcHeader">
+   
+      <div>          
+          <label for="my_modal_7">Se connecter</label>
+           
+          <input type="checkbox" id="my_modal_7" class="modal-toggle" />
+          <div class="modal">
+            <div>
+              <div>                
+                <div>
+                <!-- ======================= Sign-in Form ============================-->
+                  <form action="/signin" method="POST">
+                    {% csrf_token %}
+                    <div>
+                      <div></div>
+
+                      <h3>Se connecter</h3>
+                      <label for="my_modal_7" class="hover:cursor-pointer" >
+                      </label>
+                    </div>
+                    <ul>
+                      <li>
+                        <input type="text" name="email" id="email" placeholder="Entrez votre email" />
+                      </li>
+                      <li>
+                        <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" />
+                      </li>
+                      <li class="grid grid-cols-2 gap-3" >
+                        <button type="submit">Se connecter</button>
+                        <div class="modal-action m-0 p-0">
+                          <label for="my_modal_7">Fermer</label>
+                        </div>
+                      </li>
+                    </ul>
+                  </form>
+                </div>
+              </div> 
+            </div>
+          </div>
+
+          <label for="my_modal_8">S'inscrire</label>
+          <!-- Boolean --> 
+          <input type="checkbox" id="my_modal_8" class="modal-toggle" />
+          <!-- Modal -->
+          <div class="modal">
+            <div>
+              <div>
+                <div>
+
+
+                <!-- ======================= Sign-up Form ============================-->
+                  <form action="/signup" method="POST">
+                    {% csrf_token %}
+                    <div>
+                      <div></div>
+                      <h3>Inscrivez-vous</h3>
+                      <label for="my_modal_8" class="hover:cursor-pointer" >
+                      </label>
+                    </div>
+                    <ul class="p-2 mt-1  menu  rounded-box w-68 bg-gray-50">
+                      <li>
+                        <input type="text" name="name" id="name" placeholder="Entrez votre nom" />
+                      </li>
+                      <li>
+                        <input type="text" name="email" id="email" placeholder="Entrez votre email" />
+                      </li>
+                      <li>
+                        <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" />
+                      </li>
+        
+                      <li>
+                        <button type="submit" >S'enregistrer</button>
+                        <div class="modal-action m-0 p-0">
+                          <label>Fermer</label>
+                        </div>
+                      </li>
+                    </ul>
+                  </form>
+                </div>
+              </div> 
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- /************MOBILE HEADER******************/ -->
+  <header style="height:100px;" id="mobileHeader">
+      </div>
+    </div>
+    <div>
+          
+      <label for="my_modal_9">Se connecter</label>
+       
+      <input type="checkbox" id="my_modal_9" class="modal-toggle" />
+      <div class="modal">
+        <div>
+          <div>
+            
+            <div>
+              <!-- ========================== Sign-in Form =============================== -->
+              <form action="/signin" method="POST">
+                {% csrf_token %}
+                <div>
+                  <div></div>
+                  <h3>Se connecter</h3>
+                  <label for="my_modal_9" class="hover:cursor-pointer" >
+                  </label>
+                </div>
+                <ul>
+                  <li>
+                    <input type="text" name="email" id="email" placeholder="Entrez votre email" />
+                  </li>
+                  <li>
+                    <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" />
+                  </li>
+                  <li class="grid grid-cols-2 gap-3" >
+                    <button type="submit">Se connecter</button>
+                    <div class="modal-action m-0 p-0">
+                      <label for="my_modal_9">Fermer</label>
+                    </div>
+                  </li>
+                </ul>
+              </form>
+            </div>
+          </div> 
+        </div>
+      </div>
+  
+      <label for="my_modal_10">S'inscrire</label>
+       
+      <input type="checkbox" id="my_modal_10" class="modal-toggle" />
+      <div class="modal">
+        <div class="modal-box bg-gray-50 p-0">
+          <div>
+            <div >
+              <!-- ============================= Sign-up Form ===============================-->
+              <form action="/signup" method="POST">
+                {% csrf_token %}
+                <div>
+                  <div></div>
+                  <h3>Inscrivez-vous</h3>
+                  <label for="my_modal_10">
+                  </label>
+                </div>
+                <ul class="p-2 mt-1  menu  rounded-box w-68 bg-gray-50">
+                  <li>
+                    <input type="text" name="name" id="name" placeholder="Entrez votre nom" />
+                  </li>
+                  <li>
+                    <input type="text" name="email" id="email" placeholder="Entrez votre email" />
+                  </li>
+                  <li>
+                    <input type="text" name="password" id="password" placeholder="Entrez votre mot de passe" />
+                  </li>
+                  <li>
+                    <input type="text" name="confirm_password" id="password" placeholder="Entrez votre mot de passe" />
+                  </li>
+                  <li class="grid grid-cols-2 gap-3" >
+                    <button type="submit">S'enregistrer</button>
+                    <div class="modal-action m-0 p-0">
+                      <label for="my_modal_10">Fermer</label>
+                    </div>
+                  </li>
+                </ul>
+              </form>
+            </div>
+          </div> 
+        </div>
+      </div>
+      
+    </div>
+  </header>
+  
+  <main>
+    <section>
+      
+        <div>
+          <!-- The button to open modal -->
+          <label for="my_modal_6">Je réserve mon billet tout de suite</label>
+
+           
+          <input type="checkbox" id="my_modal_6" class="modal-toggle" />
+          <div class="modal">
+            <div class="modal-box bg-gray-50 p-0">
+              <div class="grid grid-cols-2" >
+                <div id="btnConnect" onclick="showContent2()"  class="hover:cursor-pointer" >Se connecter</div>
+                <div id="btnInscrire" onclick="showContent1()"  class="hover:cursor-pointer" >S'inscrire</div>
+              </div>
+              <div>
+                <div id="container1" class="text-slate-600 p-4" >
+
+                <!-- =======================Sign-in Form ============================== -->
+                  <form action="/signin" method="POST">
+                    {% csrf_token %}
+                    <ul >
+                      <li>
+                        <input type="text" name="email" id="email" placeholder="Entrez votre email" />
+                      </li>
+                      <li>
+                        <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" />
+                      </li>
+                      <li>
+                        <button type="submit" >Se connecter</button>
+                        <div class="modal-action m-0 p-0">
+                          <label for="my_modal_6">Fermer</label>
+                        </div>
+                      </li>
+                    </ul>
+                  </form>
+                </div>
+                <div id="container2" class="hidden text-slate-600" >
+
+
+                    <!-- =======================Sign-up Form ============================== -->
+                  <form action="/signup" method="POST">
+                    {% csrf_token %}
+                    <ul class="p-2 mt-1  menu  rounded-box w-68 bg-gray-50">
+                      <li>
+                        <input type="text" name="name" id="name"  placeholder="Entrez votre nom" />
+                      </li>
+                      <li>
+                        <input type="text" name="email" id="email"  placeholder="Entrez votre email" />
+                      </li>
+                      <li>
+                        <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" />
+                      </li>
+                      <li>
+                        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirmez votre mot de passe" />
+                      </li>
+                      <li class="grid grid-cols-2 gap-3" >
+                        <button type="submit" >S'enregistrer</button>
+                        <div class="modal-action m-0 p-0">
+                          <label for="my_modal_6" >Fermer</label>
+                        </div>
+                      </li>
+                    </ul>
+                  </form>
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+      </section>
+     
+    </section>
+  </main>
+
+
+
+  
+</body>
+</html>

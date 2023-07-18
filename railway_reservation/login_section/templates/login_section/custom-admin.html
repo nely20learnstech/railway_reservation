@@ -1,0 +1,85 @@
+{% load static %}
+<!Doctype html>
+<html class="bg-gray-50" >
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href= {% static "dist/output.css" %} rel="stylesheet"/>
+  <link href= {% static "src/assets/css/style.css" %} rel="stylesheet"/>
+  <link rel="icon" type="image/png" href= {% static "src/assets/img/logo.png" %} />
+  
+  <title>Train ticket</title>
+  
+</head>
+<body> 
+
+  <header id="pcHeader">
+    <div>
+      <!-- =====================Admin name ==========================-->
+      <span>Admin {{name}}</span>
+    </div>
+    <div>
+      <button> <a href="/signout">Se déconnecter </a></button>
+    </div>
+  </header>
+
+  <!-- /************MOBILE HEADER******************/ -->
+  <header style="height:100px;" id="mobileHeader">
+    <div>
+      <div>
+    
+        <!-- ===========================Admin Name ====================================-->
+        <span>Admin {{name}}</span>
+      </div>
+      <div>
+        <button> <a href="/signout">Se déconnecter </a></button>
+      </div>
+       
+      
+      
+    </div>
+  </header>
+  
+  <main>
+    <h4>Toutes les réservations </h4>
+    <div>
+      <div>
+        <table>
+          <thead class="align-bottom" >
+            <tr >
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Jour de départ</th>
+              <th>Heure de départ</th>
+              <th>Destination</th>
+              <th></th>
+            </tr>
+          </thead>     
+   
+          {% for reservation in reservations %}
+          <tr>
+            <td>{{reservation.reservation_id}}</td>
+            <td>{{reservation.traveler_name}}</td>
+            <td>{{reservation.departure_date |date:_("l, j F Y") }}</td>
+            <td>{{reservation.departure_time | time:'H\hi'}}</td>
+            <td>{{reservation.destination_city}}</td>
+            <td >
+              <!-- =============================== Further details modal ====================================-->
+              <label for="my_modal_{{ reservation.reservation_id }}">Plus de détails</label> 
+              <!-- Boolean -->
+              <input type="checkbox" id="my_modal_{{ reservation.reservation_id }}" class="modal-toggle" />
+              <!-- The modal -->
+              <div class="modal">
+                {% include 'login_section/further-details.html' with reservation_id=reservation.reservation_id %}
+      
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+{% endblock content %} {% endcomment %}
+
+<div class="modal-box bg-slate-600 "  >
+    <div >
+        <div class="flex items-center  justify-between" >
+                <sup class="text-jaune" >{{ reservation.chosen_class }}</sup>
+            </div>
+            <div>
+                <label for="my_modal_{{ reservation.reservation_id }}" class="hover:cursor-pointer" >
+          
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="grid lg:grid-cols-2 sm:grid-cols-1 gap-7" >
+        <ul>
+    
+        <li class="text-gray-50" >
+            <span class="font-bold" >Au nom de</span> : {{ reservation.traveler_name }}
+        </li>
+        <li class="text-gray-50" >
+            <span class="font-bold" >Téléphone</span> : +261 {{ reservation.phone_number }}
+        </li>
+        <li class="text-gray-50" >
+            <span class="font-bold" >Jour de départ</span> : {{ reservation.departure_date | date:_("l, j F Y")}}
+        </li>
+        <li class="text-gray-50" >
+            <span class="font-bold" >De</span> : {{ reservation.departure_city}}
+            <span class="font-bold" >vers</span> : {{ reservation.destination_city }}
+        </li>
+        <li class="text-gray-50" >
+            <span class="font-bold" >Heure de départ</span> : {{ reservation.departure_time|time:"H\hi" }}
+        </li>
+        <li class="text-gray-50" >
+            <span class="font-bold" >Numéro de place</span> : {{reservation.seat_number_list}}
+        </li>
+        <li class="text-gray-50" >
+            <span class="font-bold" >Adulte</span> : {{reservation.adult_number}}
+            <span class="font-bold" >Enfant</span> : {{reservation.child_number}}
+        </li>
+        <li class="mt-6" >
+            <span class="font-bold text-gray-50 " >Total : </span> <br>
+            <span class="text-gray-50 font-bold font-righteous text-xl " >171 000 Ar</span>
+        </li>
+        </ul>
+        <div class="flex flex-col items-center gap-2" >
+        <img src={{reservation.qr_code.url}} width="150" height="150" alt="qrCode image" /> 
+        <span class="text-gray-50 uppercase text-xs  " >id : {{reservation.reservation_id}}</span>
+        </div>
+    </div>
+</div>     
+     
+    <!--====================================END / Further details ======================================-->

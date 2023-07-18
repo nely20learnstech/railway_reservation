@@ -1,0 +1,130 @@
+{% load static %}
+
+<link href={% static "src/assets/css/style.css"%} rel="stylesheet"/>
+
+<div>
+    <div>
+        <label for="edit_{{ reservation.reservation_id }}">
+        </label>
+    </div>
+    <h3>Modifications les informations de la réservation</h3>
+<!-- =============================EDIT FORM ==================================-->  
+
+    <form action="/edit-reservation" method="POST" id="itinerary-form">
+        {% csrf_token %}
+        <div>
+            <input type="text" name="reservation_id" readonly value="{{ reservation.reservation_id }}" hidden>
+        </div>
+        <div>
+            <div>
+                <label for="depart">Départ</label>
+           
+                    <select id="city-data-box"  name="departure_city">
+                        {% for city in queryset %}
+                            <option value="{{city.city_name}}" {% if city.city_name == reservation.departure_city %}selected{% endif %}>{{city.city_name}}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+    
+            <div>
+                <label for="arrived">Arrivée</label>
+
+                    <select id="itinerary-data-box"  name="destination_city">
+                        
+                        {% for city in queryset %}
+                            <option value="{{city.city_name}}" {% if city.city_name == reservation.destination_city %}selected{% endif %}>{{city.city_name}}</option>
+                        {% endfor %}
+                    </select>    
+            </div>
+    
+        </div>
+    
+        <div>
+            <div>
+                <div>
+                    <label>Jour de départ</label>
+                    <input type="date" name="departure_date" value="{{reservation.departure_date|date:'Y-m-d'}}"/>
+                </div>
+                <div>
+                    <label for="">à</label>
+                    <select id="my-select" name="departure_time">
+                        {% for time in departure_time %}           
+                            <option value="{{time.departure_time|time:"H:i"}}" {% if time.departure_time == reservation.departure_time  %}selected{% endif %}>{{time.departure_time|time:"H\hi"}}</option>                              
+                        {% endfor %} 
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>Au nom de </label>
+                <input placeholder="Insérez votre nom" type="text" name="traveler_name" id="nameTo" value = " {{ reservation.traveler_name }} " />
+            </div>
+            <div>
+                <div>
+                    <label for="">Enfant(s)</label>
+                    <input placeholder="0" min="0" type="number" name="child_number" id="childNumber" value="{{ reservation.child_number }}" />
+                </div>
+                <div>
+                    <label>Adulte(s) </label>
+                    <input placeholder="0" min="0" class="lg:w-28 sm:w-full p-3 rounded-lg bg-gray-100 " type="number" name="adult_number" id="adultNumber" value="{{ reservation.adult_number }}" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>
+                    <span>+ 261</span>
+                </label>
+                <input placeholder="Votre numéro de téléphone" type="tel" name="phone_number" id="phoneNumber" class="pl-28 py-3 w-full text-gray-500 rounded-lg bg-gray-100" value="{{ reservation.phone_number }}"/>
+            </div>
+        </div>
+        <div>
+            <div>
+                <select id="classe" name="chosen_class">
+                    {% for wagon in wagons %}            
+                        <option value="{{wagon.wagon}}" {% if wagon.wagon ==  reservation.chosen_class %} selected {% endif %}>{{wagon.wagon}}</option>                            
+                    {% endfor %}                   
+                </select>
+                <div class="bg-red-500" >
+                   
+                    <div>
+                        <div>
+                            <div class="my-3" >
+                                 <div>
+                                     <div style="width: 15px;height:15px" class="rounded  bg-gray-300"></div>
+                                     <span>Disponible(s)</span>
+                                 </div>
+                                 <div>
+                                     <div style="width: 15px;height:15px" class="rounded  bg-slate-700 "></div>
+                                     <span>Séléctionnée(s)</span>
+                                 </div>
+                                 <div>
+                                     <div style="width: 15px;height:15px" class="rounded  bg-red-700" ></div>
+                                     <span >Réservée(s) {{reservation.seat_number_list}}</span>
+                                 </div>
+                             </div>
+                        </div>
+                        <div id="modalContainerNumPlace2" class="grid grid-cols-5 gap-2" >
+                            
+                            {% for button_num in seat_numbers %}
+                            <div class="flex justify-center">
+                                <input type="checkbox" name="seat_number_checkbox" value={{button_num.seat_number}} id="editPlace{{ reservation.reservation_id }}{{button_num.seat_number}}" {% if button_num.is_available == False %} disabled checked {% endif %}>
+                                <label style="{% if button_num.is_available == False %} background: #b91c1c!important; {% elif button_num.seat_number == reservation.seat_number_list %} background: #f91c1c!important; {% endif %} " for="editPlace{{ reservation.reservation_id }}{{button_num.seat_number}}" class=" rounded-lg hover:cursor-pointer hover:bg-gray-400 hover:text-white transition-colors text-center w-full bg-gray-300 text-gray-500 py-4">
+                                    {{button_num.seat_number}}
+                                </label>
+                            </div>
+                            {% endfor %} 
+                        </div>
+                    </div>
+                </details> 
+                </div>
+            </div> 
+        </div>
+        <div >
+            <button type="submit">Envoyer ma réservation</button>
+            <label  for="edit_{{ reservation.reservation_id }}" type="submit" >Fermer</label>
+        </div>
+    </form>
+
+
+</div>
+

@@ -1,0 +1,373 @@
+{% load static %}
+
+<!doctype html>
+<html class="bg-gray-50" >
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href= {% static "dist/output.css" %} rel="stylesheet"/>
+  <link href= {% static "src/assets/css/style.css" %} rel="stylesheet"/>
+  <link rel="icon" type="image/png" href= {% static "src/assets/img/logo.png" %} />
+
+    <!-- jQuery -->
+    <script src={% static 'jquery-3.6.1.min.js' %} defer></script>
+    <script src={% static 'jquery-3.6.1.js' %} defer></script>
+
+    <!-- Custom CSS & JS-->
+    <script src={% static 'main.js' %} defer></script>
+  
+  <title>Train ticket</title>
+  
+</head>
+<body> 
+  <!-- /************PC HEADER******************/ -->
+
+  <header id="pcHeader" class="sm:hidden z-30 lg:block sticky top-0 bg-gradient-to-r from-slate-600 to-slate-600/90 py-5 header-big-container " >
+    <div class="flex items-center justify-between mx-11" >
+      <div class=" " >
+     
+      </div>
+      <div >
+        <div class="lg:flex sm:hidden items-center gap-6" >
+            <span class="text-gray-50" >{{name}}</span>
+          </div>
+          <div>
+            <button>
+                <a href="/signout">Se déconnecter</a>    
+            </button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- /************MOBILE HEADER******************/ -->
+  <header style="height:100px;" id="mobileHeader">
+    
+    <span class="text-gray-50">{{name}}</span>
+      </div>
+      <div>
+        <button type="button"> 
+            <a href="/signout">Se déconnecter</a> 
+        </button>
+      </div>
+       
+      
+      
+    </div>
+  </header>
+  
+  <main>
+    <h4>Faites votre réservations ici </h4>
+    <section>
+        <section>
+          <section>
+            <form {% block action %} action="/add-reservation" {% endblock action %} method="POST" id="itinerary-form">
+                {% csrf_token %}
+             
+                <div>
+              
+                    <div id="city">
+                        <label for="depart">Départ</label>
+                        <!-- ======================== Departure select box =================================-->
+                        {% block value-id %}{% endblock value-id %}
+                        
+                            <select id="city-data-box" name="departure_city" required>
+                                {% block value-departure %}
+                                    <option value="none" selected hidden>Votre lieu de départ</option> 
+                                {% endblock value-departure %} 
+                            </select>
+                        
+                    </div>
+                    <span class="text-sm" style="color:red!important;" id="departure_checker"></span>
+                    
+                    <div id="itinerary">
+                    <div>
+                       
+                        <label for="arrived">Arrivée</label>
+                            <!-- ======================== Destination select box =================================-->
+                       
+                        <select id="itinerary-data-box" name="destination_city">
+                            {% block value-destination %}
+                                <option value="" class="text" id="itinerary-text">Choisissez une destination</option>
+                            {% endblock value-destination %}  
+                        </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div>
+                    <div>
+                        <div>
+
+                        <!-- ============================== Journey Date =======================================-->
+                            <label>Jour de départ</label>
+                            <input type="date" name="departure_date" id="date" class="sm:w-full lg:w-1/2 text-gray-500 p-3 rounded-lg bg-gray-100" />
+                        </div>
+                       
+                        <!-- ============================== Departure time =======================================-->
+                        <div>
+                            <label>à</label>
+                            <select  name="departure_time">
+                              
+                                {% block value-time %}
+                                {% for time in departure_time %}           
+                                        <option value="{{time.departure_time|time:"H:i"}}">{{time.departure_time|time:"H\hi"}}</option>                              
+                                {% endfor %} 
+                                {% endblock value-time %}  
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Date checker -->
+                    <span class="text-sm" style="color:red!important;" id="date_checker"></span>
+
+                    <div class=" grid gap-2  " >
+                        <label>Au nom de </label>
+                        <input placeholder="Insérez votre nom" type="text" name="traveler_name" id="passenger_name" {% block value-traveler-name %}{% endblock value-traveler-name %}/>
+                    </div>
+                    <span class="text-sm" style="color:red!important;" id="name_checker"></span>
+                    <div class=" grid lg:grid-cols-2 sm:grid-cols-1 sm:gap-3 my-3 mt-5 " >
+                        <div>
+                            <label for="">Enfant(s)</label>
+                            <input placeholder="0" min="0"  type="number" name="child_number" id="childNumber" {% block value-child-number %}{% endblock value-child-number %}/>
+                        </div>
+                        <div>
+                            <label for="">Adulte(s) </label>
+                            <input placeholder="0" min="0"  type="number" name="adult_number" id="adultNumber" {% block value-adult-number %}{% endblock value-adult-number %}/>
+                        </div>
+                       
+                    </div>
+                    <span class="text-sm" style="color:red!important;" id="number_of_passenger_checker"></span>
+                </div>
+                <div>
+                    <div>
+                        <label for="">                       
+
+                            <!--===============================Phone Number==========================================-->
+                            <span>+ 261</span>
+                        </label>
+                        <input placeholder="Votre numéro de téléphone" type="tel" name="phone_number" id="phoneNumber" class="pl-28 py-3 w-full text-gray-500 rounded-lg bg-gray-100" {% block value-phone-number %}{% endblock value-phone-number %} />
+                    </div>
+                    <span class="text-sm" style="color:red!important;" id="phone_number_checker"></span>
+                </div>
+                <div>
+                    <div>
+
+                        <!-- ================================= Wagon select box =========================================-->
+                        <select id="classe" name="chosen_class">                            
+                            {% block value-wagon %}
+                                {% for wagon in wagons %}            
+                                    <option value="{{wagon.wagon}}">{{wagon.wagon}}</option>                            
+                                {% endfor %}
+                            {% endblock value-wagon %}
+                        </select>
+                        <div class="flex" >
+                            <label for="choosePlace_9">Choisir les places</label>
+       
+                            <input type="checkbox" id="choosePlace_9" class="modal-toggle" />
+                            <div class="modal">
+                                <div  class="modal-box bg-gray-50 p-3 py-6">
+                                    <div class="flex justify-end" >
+                                        <label for="choosePlace_9" class="hover:cursor-pointer" >
+                                        
+                                        </label>
+                                    </div>
+                                    <h4>Choisissez vos numéros de place</h4>
+                                    <div>
+                                       <div class="flex gap-3 mt-3" >
+                                            <div class="flex items-center gap-2" >
+                                                <div style="width: 15px;height:15px" class="rounded  bg-gray-300"></div>
+                                                <span class="text-sm text-slate-600" >Disponible(s)</span>
+                                            </div>
+                                            <div class="flex items-center gap-2" >
+                                                <div style="width: 15px;height:15px" class="rounded  bg-slate-700 "></div>
+                                                <span class="text-sm text-slate-600" >Séléctionnée(s)</span>
+                                            </div>
+                                            <div class="flex items-center gap-2" >
+                                                <div style="width: 15px;height:15px" class="rounded  bg-red-700" ></div>
+                                                <span class="text-sm text-slate-600"  >Réservée(s)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="modalContainerNumPlace">
+                                        {% for button_num in seat_numbers %}
+                                        <div class="flex justify-center">
+                                                <input type="checkbox" name="seat_number_checkbox" id="place1{{button_num.seat_number}}" value={{button_num.seat_number}} {% if button_num.is_available == False %} disabled checked {% endif %}>
+                                                <label style="{% if button_num.is_available == False %} background: #b91c1c!important; {% endif %}" for="place1{{button_num.seat_number}}"  class="  rounded-lg hover:cursor-pointer hover:bg-gray-400 hover:text-white transition-colors text-center w-full bg-gray-300 text-gray-500 py-4">
+                                                    {{button_num.seat_number}}
+                                                </label>
+                                            </div>    
+                                        {% endfor %}                                                                               
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <span id="error" class="text-sm" style="color:red!important;"></span>
+                <!--================================= Submit button ==================================================-->
+                <div class="relative px-4" >
+                    <button type="submit" class=" text-slate-600 rounded-lg bg-jaune w-full p-3 " >Envoyer ma réservation</button>
+                </div>
+            </form>
+          </section>
+        </section>
+        <section>
+            <h4>Mes réservations</h4>
+            <div>
+            {% block table_content %}
+                <div class="overflow-x-auto">
+                    <!-- ============================= Reservation table =========================== -->
+                    
+                    <table class="items-center w-full mb-0 align-top" datatable id="myDataTable" >
+                        <thead class="align-bottom" >
+                            <tr >
+                            <th class=" " >ID</th>
+                            <th class=" " >Nom</th>
+                            <th class=" " >Jour de départ</th>
+                            <th class=" " >Heure de départ</th>
+                            <th class=" " >Destination</th>
+                            <th class=" " ></th>
+                            </tr>
+                        </thead>
+                        {% load i18n %}
+                     
+                        {% for reservation in reservations %}
+                        <tr>
+                            <td class=" " >{{reservation.reservation_id}}</td>
+                            <td class=" " >{{reservation.traveler_name}}</td>
+                            <td class=" " >{{reservation.departure_date |date:_("l, j F Y") }}</td>
+                            <td class=" " >{{reservation.departure_time | time:'H\hi'}}</td>
+                            <td class=" " >{{reservation.destination_city}}</td>
+                            <td class=" " >
+                
+                                <!-- =============================== Further details modal ====================================-->
+                                <div class="flex items-center gap-4" >
+                                    <div>
+                                        <label for="my_modal_{{ reservation.reservation_id }}" class="bg-gray-600 text-white rounded-lg sm:py-2 p-3 my-2 hover:cursor-pointer  " > Plus de détails</label> 
+                                        <input type="checkbox" id="my_modal_{{ reservation.reservation_id }}" class="modal-toggle" />
+                                        <div class="modal">
+                                            {% include 'login_section/further-details.html' with reservation_id=reservation.reservation_id  %}
+                                            
+                                            
+                                        </div>
+                                    </div>
+
+                                    <!--====================================END / Further details ======================================-->
+
+                                    <!--==================================== Edit modal ======================================-->
+                                    <div>
+                                        <label for="edit_{{ reservation.reservation_id }}">
+                                          
+                                        </label>
+                                       
+                                        <input type="checkbox" id="edit_{{ reservation.reservation_id }}" class="modal-toggle" />
+                                        <div class="modal">
+                                           
+                                            {% include 'login_section/edit.html' with reservation_id=reservation.reservation_id %}
+                                            
+                                        </div>    
+                                    </div>
+
+                                    <!--====================================END / Edit modal ======================================-->
+
+                                    <!--==================================== Delete modal ======================================-->
+                                    <div>
+                                        <label for="delete_{{ reservation.reservation_id }}" class=" cursor-pointer " >
+                                           
+                                        </label>
+                                        <input type="checkbox" id="delete_{{ reservation.reservation_id }}"/>
+                                        <div class="modal">
+                                            <div class="modal-box bg-gray-50 p-0 pt-4 "  >
+                                                
+                                                <h4>Voulez-vous vraiment annulez cette réservation ?</h4>
+                                                <div>
+                                                    <div>
+                                                        <a href="/delete-reservation/{{reservation.reservation_id}}" title="Delete reservation">Oui</a>
+                                                    </div>
+                                                    <label for="delete_{{ reservation.reservation_id }}">
+                                                        Non
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td> 
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% endblock table_content %}
+                </div>
+            </div>
+        </section>
+        <section></section>
+    </section>
+  </main>
+  
+  <script defer>
+
+    var reservation_form = document.getElementById('itinerary-form')
+    reservation_form.addEventListener('submit', function (event)  {
+        const malagasy_phone_number_regex = /^\s*((?:33|32|38|34)\s\d{2}\s\d{3}\s\d{2})\s*$/
+        const malagasy_phone_number_regex_nospaces = /^\s*((?:33|32|38|34)\d{2}\d{3}\d{2})\s*$/
+        const valide_name = /^[a-zA-Z-\s]+$/
+        var selectBox = document.getElementById('city-data-box')
+       
+        const phone_number_input = document.getElementById('phoneNumber')
+        const passenger_name = document.getElementById('passenger_name')
+        const child_number = document.getElementById('childNumber')
+        const adult_number = document.getElementById('adultNumber')
+        const date = document.getElementById('date')
+
+        const isModalOpen = $("#modalContainerNumPlace").is(":visible");
+
+        // Perform the seat selection validation only if the modal is not open
+        if (!isModalOpen && !validateSeatSelection()) {
+            return false; // Prevent form submission if seat selection is not valid
+        }
+      
+        if(selectBox.value=="none")
+        {
+            const departure_checker = document.getElementById('departure_checker')
+            //alert("Please select an option")
+            departure_checker.innerHTML = "Veuillez sélectionner votre lieu de départ."
+            event.preventDefault()
+
+        }
+        if(malagasy_phone_number_regex.test(phone_number_input.value) == false && malagasy_phone_number_regex_nospaces.test(phone_number_input.value) == false)
+        {
+            const phone_number_checker = document.getElementById('phone_number_checker')
+            phone_number_checker.innerHTML = "Veuillez saisir un numéro de téléphone valide."
+            event.preventDefault()
+        }
+        if(date.value=="")
+        {
+            let date_checker = document.getElementById('date_checker')
+            date_checker.innerHTML = "Veuillez saisir une date."
+            event.preventDefault()
+        }
+        if (adultNumber.value == "" && childNumber.value == "")
+        {
+            let number_of_passenger = document.getElementById('number_of_passenger_checker')
+            number_of_passenger.innerHTML = "Veuillez saisir le nombre de passagers."
+            event.preventDefault()
+        }
+        if(passenger_name.value == "")
+        {
+            let name_checker = document.getElementById("name_checker")            
+            name_checker.innerHTML = "Veuillez saisir votre nom, s'il vous plaît."
+            event.preventDefault()
+        }
+        else if(valide_name.test(passenger_name.value) == false)
+        {
+            let name_checker = document.getElementById("name_checker")           
+            name_checker.innerHTML = "Veuillez saisir correctement votre nom."
+            event.preventDefault()
+        }    
+    }) 
+  </script>
+</body>
+</html>
