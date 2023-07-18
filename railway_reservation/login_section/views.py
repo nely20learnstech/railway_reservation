@@ -20,10 +20,6 @@ from io import BytesIO
 def home(request):
     return render(request, "login_section/index.html")
 
-# def admin_view(request):
-#     activate('fr')
-#     return render(request, "login_section/custom-admin.html")
-
 def login_view(request):
     activate('fr')
     queryset = City.objects.all()
@@ -31,7 +27,6 @@ def login_view(request):
     seat_numbers = ThirdWagon.objects.all()
     wagons = Wagon.objects.all()
     reservations = Reservation.objects.all().order_by('-created_at')
-
 
     if request.method == "POST":
         email = request.POST['email']
@@ -48,8 +43,6 @@ def login_view(request):
                 'queryset': queryset,
                 'seat_numbers': seat_numbers,
                 'wagons': wagons,
-                # 'available_seats': len(available_list),
-                # 'unavailable_seats':len(taken_list),
                 'reservations': reservations,
                 'name': name
             }
@@ -105,16 +98,11 @@ def register_view(request):
                         'queryset': queryset,
                         'seat_numbers': seat_numbers,
                         'wagons': wagons,
-                        # 'available_seats': len(available_list),
-                        # 'unavailable_seats':len(taken_list),
                         'reservations': reservations,
                         'name': username
                     }
                     # Redirect to the desired page
-                    return render(request, 'login_section/user.html', context)
-        
-    # else:
-        
+                    return render(request, 'login_section/user.html', context)        
 
     return render(request, 'login_section/index.html')
 
@@ -175,10 +163,7 @@ def reservation(request):
         'wagon3_seat_numbers': wagon3_seat_numbers,
         'wagon2_seat_numbers': wagon2_seat_numbers,
         'wagons': wagons,
-        # 'available_seats': len(available_list),
-        # 'unavailable_seats':len(taken_list),
         'reservations': reservations,
-        # 'total' : total,
     }
 
     return render(request, 'login_section/user.html', context)
@@ -203,8 +188,6 @@ def get_json_fee_data(request, *args, **kwargs):
     print(selected_arrival_city)
     print(selected_departure_city)
     return JsonResponse({'data': obj_fee})
-
-
 
 # Add reservation
 def add_reservation(request):
@@ -273,10 +256,6 @@ def add_reservation(request):
                         return render(request, 'login_section/user.html', {'error': 'Invalid seat number.'})
         
             return HttpResponseRedirect('reservation')
-        
-
-    # else:
-        # return render(request, 'itinerary/main.html')
     
 
 # Edit reservation
@@ -355,6 +334,7 @@ def individual_reservation(request, reservation_id):
         return render(request, "login_section/edit.html", {'reservation': reservation})
 
 # @user_passes_test(lambda user: user.is_superuser) 
+// Admin only can access the page.
 @staff_member_required   
 def custom_admin(request):
     activate('fr')
@@ -381,72 +361,3 @@ def further_details(request, reservation_id):
         'reservation': reservation,
     }
     return render(request, "login_section/further-details.html", context)
-
-
-
-# from django.shortcuts import render
-
-
-def generate_ticket(request):
-    # Get the necessary ticket details from the database or form input
-    passenger_name = "John Doe"
-    journey_details = "City A to City B"
-    seat_number = "A1"
-    ticket_date = "2023-06-15"
-    ticket_id = "123456"
-
-    # Generate the QR code using the ticket ID or any other relevant information
-    qr = qrcode.QRCode(version=1, box_size=10, border=5)
-    qr.add_data(ticket_id)
-    qr.make(fit=True)
-    qr_image = qr.make_image(fill="black", back_color="white")
-
-    # Load the company logo image
-    company_logo_path = "login_section/static/src/assets/img/train.jpg"
-    company_logo = Image.open(company_logo_path)
-    logo_size = (50,50)
-    company_logo = company_logo.resize(logo_size)
-
-    # Create a new blank image for the ticket
-    ticket_width = 600
-    ticket_height = 300
-    ticket_image = Image.new("RGB", (ticket_width, ticket_height), "white")
-    draw = ImageDraw.Draw(ticket_image)
-
-    # Add the ticket details, QR code, and company logo to the ticket image
-    font_path = "login_section/static/src/assets/font/Dyuthi__.ttf"
-    font_size = 20
-    # font_color = "black"
-    font = ImageFont.truetype(font_path, font_size)
-
-    # Add passenger name
-    draw.text((50, 60), f"Passenger Name: {passenger_name}", font=font, fill="blue")
-    
-    # Add journey details
-    draw.text((50, 90), f"Journey Details: {journey_details}", font=font, fill="black")
-    
-    # Add seat number
-    draw.text((50, 120), f"Seat Number: {seat_number}",  font=font, fill="black")
-    
-    # Add ticket date
-    draw.text((50, 150), f"Ticket Date: {ticket_date}",  font=font, fill="black")
-    
-    # Add the QR code
-    qr_x = ticket_width - qr_image.size[0] - 50
-    qr_y = (ticket_height - qr_image.size[1]) // 2
-    ticket_image.paste(qr_image, (qr_x, qr_y))
-
-    # Add the company logo
-    logo_x = 10
-    logo_y = (ticket_height - company_logo.height) // 20
-    ticket_image.paste(company_logo, (logo_x, logo_y))
-
-    # Convert the ticket image to bytes
-    ticket_image_bytes = BytesIO()
-    ticket_image.save(ticket_image_bytes, format='PNG')
-    ticket_image_bytes.seek(0)
-
-    # Return the ticket image as an HTTP response
-    response = HttpResponse(content_type="image/png")
-    response.write(ticket_image_bytes.getvalue())
-    return response
