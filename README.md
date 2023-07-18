@@ -13,6 +13,7 @@ It incorporates various features to enhance the user experience and streamline t
 Technologies Used
 
 Back-end Framework: Django
+
 Front-end: HTML, Tailwind CSS, JavaScript (not included in this repository)
 
 Features
