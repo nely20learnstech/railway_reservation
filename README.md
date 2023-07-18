@@ -11,13 +11,17 @@ The railway reservation system aims to provide users with a convenient platform 
 It incorporates various features to enhance the user experience and streamline the reservation process.
 
 Technologies Used
+
 Back-end Framework: Django
 Front-end: HTML, Tailwind CSS, JavaScript (not included in this repository)
+
 Features
+
 User Registration and Login: Allows users to create accounts and log in securely.
 Seat Selection: Allows users to select seats from the available options.
 Booking History: Provides users with a history of their past bookings.
 Admin Panel: Allows authorized personnel to manage user bookings.
 
 License
+
 This project is licensed under the MIT License.
